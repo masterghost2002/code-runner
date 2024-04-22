@@ -23,9 +23,7 @@ const useFileStore = create<FileStore>()(persist((set, get) => ({
         const _recentFiles =[...get().recentFiles];
         const currentOpen = get().currentOpenedFile;
         const _new_recents = _recentFiles.filter((f:RecentFile)=>f.path !== file.path);
-        let newOpen:undefined | RecentFile = undefined;
-        if(currentOpen && currentOpen.path === file.path)
-            newOpen = _new_recents.length>0?_new_recents[_new_recents.length-1]:undefined;
+        let newOpen = _new_recents.length>0?_new_recents[_new_recents.length-1]:undefined;
         set({currentOpenedFile:newOpen, recentFiles:_new_recents});
     },
     setCurrentOpenFile:(file:RecentFile | undefined)=>{
