@@ -24,7 +24,7 @@ export default function FileNavBar() {
         });
     }, [io, setFileTree]);
     return (
-        <div className="flex bg-[#191919] flex-col w-[30%] p-2 gap-5">
+        <div className="flex bg-[#191919] flex-col flex-shrink-0 w-[20%] p-2 gap-5">
             <h1 className="text-xl font-bold">Code Runner</h1>
             <div className='flex flex-col gap-2'>
                {fileTree.length >= 1 && <TreeViewer

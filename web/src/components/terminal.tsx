@@ -3,8 +3,10 @@ import { Terminal as XtermTerminal } from "xterm";
 import { FitAddon } from 'xterm-addon-fit';
 import useSocket from "../hooks/useSocket";
 import arrBufferToString from "../utils/array-buffer-to-string";
+import 'xterm/css/xterm.css';
 const fitAddon = new FitAddon();
 const OPTIONS_XTERM = {
+    useStyle:true,
     screenKeys: true,
     cursorBlink: true,
     cols: 200,
@@ -38,7 +40,5 @@ export default function Terminal() {
         io.emit('TERMINAL_DATA', '\n');
     }, [terminalContainerRef, io]);
 
-    return <div className="flex flex-grow-1 overflow-y-auto max-h-30vh">
-        <div ref={terminalContainerRef} className="w-[70vw] max-h-[30vh]" />
-    </div>
+    return (<div ref={terminalContainerRef} style={{height:'25vh', width:'80%'}} />)
 }

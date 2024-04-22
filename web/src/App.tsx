@@ -6,9 +6,9 @@ function App() {
   return (
     <div className="flex h-screen w-full">
       <FileNavBar />
-      <div className="flex flex-col flex-grow-1 w-full h-[100vh]">
+      <div className="flex flex-col w-full flex-grow-1 bg-black">
         <CodeEditor />
-        <Terminal/>
+        <Terminal />
       </div>
     </div>
   )
