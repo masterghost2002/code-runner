@@ -2,13 +2,9 @@ import { useEffect, useRef } from "react";
 import { Terminal as XtermTerminal } from "xterm";
 import { FitAddon } from 'xterm-addon-fit';
 import useSocket from "../hooks/useSocket";
+import arrBufferToString from "../utils/array-buffer-to-string";
 const fitAddon = new FitAddon();
-
-function arrBufferToString(buffer: ArrayBuffer): string {
-    const decoder = new TextDecoder('utf-8');
-    return decoder.decode(buffer);
-}
-const OPTIONS_TERM = {
+const OPTIONS_XTERM = {
     screenKeys: true,
     cursorBlink: true,
     cols: 200,
@@ -25,14 +21,13 @@ export default function Terminal() {
 
         io.emit("REQUEST_TERMINAL");
         io.on("RESULT_REQUEST_TERMINAL", terminalHandler)
-        const term = new XtermTerminal(OPTIONS_TERM);
+        const term = new XtermTerminal(OPTIONS_XTERM);
         term.loadAddon(fitAddon);
         term.open(terminalContainerRef.current);
         fitAddon.fit();
         function terminalHandler({ data }: { data: any }) {
             if (data instanceof ArrayBuffer) {
                 const dataInString = arrBufferToString(data);
-                console.log(dataInString)
                 term.write(dataInString)
             }
         }

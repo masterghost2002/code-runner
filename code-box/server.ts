@@ -4,6 +4,7 @@ import { Server, Socket } from 'socket.io';
 import cors from 'cors';
 import buildFileTree from './src/utils/build-file-tree';
 import readContent from './src/utils/read-content';
+import editContent from './src/utils/edit-content';
 import * as pty from 'node-pty';
 const app = express();
 const server = http.createServer(app);
@@ -40,6 +41,9 @@ io.on('connection', (socket: Socket) => {
   });
   socket.on("TERMINAL_DATA", (data:string)=>{
     term.write(data);
+  });
+  socket.on("EDIT_FILE_CONTENT", (data:{filePath:string, content:string})=>{
+    editContent(data.filePath, data.content);
   })
 });
 
