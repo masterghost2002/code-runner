@@ -5,7 +5,7 @@ type FileToolTipType = {
     index:number;
     isSelected:boolean;
     onClick:(index:number)=>void;
-    onCancel:(index:number)=>void;
+    onCancel:(e: React.MouseEvent<HTMLButtonElement>,index:number)=>void;
 }
 const FileToolTip  = ({fileName, onClick, onCancel, index, isSelected}:FileToolTipType)=>{
     return (
@@ -13,7 +13,7 @@ const FileToolTip  = ({fileName, onClick, onCancel, index, isSelected}:FileToolT
             <div>
                 {fileName}
             </div>
-            <button className="hover:block" onClick={()=>onCancel(index)}>
+            <button className="hover:block" onClick={(e:React.MouseEvent<HTMLButtonElement>)=>onCancel(e,index)}>
                 <IoClose/>
             </button>
         </div>
@@ -26,7 +26,8 @@ export default function RecentFileHandler(){
         setCurrentOpenFile(file);
 
     };
-    const onCancel = (index:number)=>{
+    const onCancel = (e: React.MouseEvent<HTMLButtonElement>, index:number)=>{
+        e.stopPropagation();
         const file = recentFiles[index];
         removeFromRecents(file);
     }
