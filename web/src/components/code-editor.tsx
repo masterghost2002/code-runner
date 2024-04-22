@@ -15,10 +15,10 @@ export default function CodeEditor () {
         io.on('RESULT_FILE_CONTENT', (data:{path:string, content:string})=>setContent(data.content));        
     }, [currentOpenedFile]);
     return (
-        <div className="flex flex-col flex-grow-1 w-full">
+        <div className="flex h-full flex-col w-full">
             <RecentFileHandler/>
             <Editor
-                height="100vh"
+                height={'70dvh'}
                 theme="vs-dark"
                 value={content}
                 path="/media/rakeshssd/codespace/code-runner/web/App.tsx"
