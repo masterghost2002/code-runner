@@ -5,6 +5,7 @@ import cors from 'cors';
 import buildFileTree from './src/utils/build-file-tree';
 import readContent from './src/utils/read-content';
 import editContent from './src/utils/edit-content';
+import createFile from './src/utils/create-file';
 import * as pty from 'node-pty';
 const app = express();
 const server = http.createServer(app);
@@ -44,6 +45,11 @@ io.on('connection', (socket: Socket) => {
   });
   socket.on("EDIT_FILE_CONTENT", (data:{filePath:string, content:string})=>{
     editContent(data.filePath, data.content);
+  });
+  socket.on('REQUEST_CREATE_FILE', async ({filePath, rootFolder}:{filePath:string, rootFolder:string})=>{
+    const result = await createFile(filePath);
+    const new_file_tree = buildFileTree(rootFolder);
+    socket.emit('RESULT_CREATE_FILE', {...result, new_file_tree});
   })
 });
 

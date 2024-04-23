@@ -1,15 +1,27 @@
 import { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import useFileStore from "../../store/files/useFileStore";
 type props = {
     folderName: string;
-    children: React.ReactNode
+    path:string;
+    children: React.ReactNode;
 }
-const FolderContainer = ({ folderName, children }: props) => {
+const FolderContainer = ({ folderName,path, children }: props) => {
     const [isSelected, setIsSelected] = useState(false);
+    const setSelectedPath = useFileStore(state=>state.setSelectedPath);
+    const handleOnFolderSelect = ()=>{
+        setIsSelected(prev=>{
+            if(prev === false){
+                setSelectedPath(path);
+                return true;
+            }
+            setSelectedPath(undefined);
+            return false;
+        });
+    }
     return (<div className="ml-[10px]">
-        <div className="flex gap-2">
-            <button className="flex gap-2 items-center" onClick={() => setIsSelected(prev => !prev)}>
+            <button className="flex gap-2 items-center" onClick={handleOnFolderSelect}>
                 <span>
                     {isSelected ? <IoIosArrowDown/> : <IoIosArrowForward/>}
                 </span>
@@ -17,7 +29,6 @@ const FolderContainer = ({ folderName, children }: props) => {
                     {folderName}
                 </span>
             </button>
-        </div>
         {
             isSelected && children
         }
