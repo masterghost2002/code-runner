@@ -6,7 +6,7 @@ export default function FileNavBar() {
     const fileTree = useFileStore((state) => state.fileTree);
     useGetFileTree();
     return (
-        <div className="flex bg-[#191919] flex-col flex-shrink-0 w-[20%] p-2 gap-5">
+        <div className="flex bg-[#191919] flex-col h-full w-full p-2 gap-5">
             <h1 className="text-xl font-bold">Code Runner</h1>
             <CreateFileFolder/>
             <div className='flex flex-col gap-2 overflow-y-auto overflow-x-auto'>
