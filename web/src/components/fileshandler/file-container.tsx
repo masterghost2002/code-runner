@@ -14,7 +14,7 @@ export default function FileContainer({ filename, filepath }: props) {
         }
         setCurrentOpenFile(recentFile);
     }
-    return (<button onClick={handleFileClick} className="text-white my-1 ml-1 text-sm flex gap-2 items-center font-mono cursor-pointer">
+    return (<button onClick={handleFileClick} className="text-white w-full p-1 text-sm flex gap-2 items-center font-mono hover:bg-[#202020]   rounded-md hover:cursor-pointer">
         <Icon />
         {filename}
     </button>)
