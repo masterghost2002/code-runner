@@ -8,19 +8,20 @@ type props = {
 }
 export default function InputBoxFileFolder({ currentPath }: props) {
     const io = useSocket({ url: 'http://localhost:5000' });
+    const inputRef = React.useRef<null | HTMLInputElement>(null);
     const [inputData, setInputData] = React.useState<string>('');
     const selectedPath = useFileStore(state => state.selectedPath);
     const setFileTree = useFileStore(state => state.setFileTree)
     const isAddingFileOrFolder = useFileStore(state => state.isAddingFileOrFolder);
     const setIsAddingFileOrFolder = useFileStore(state => state.setIsAddingFileOrFolder);
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputData(e.target.value);
-    const onBlur = () => {
+    const onSave = () => {
         setIsAddingFileOrFolder({ isAdding: false, type: undefined });
         if (!io || inputData.trim().length === 0) return;
         const name = inputData.trim();
         const completePath = currentPath + '/' + name;
 
-        //TODO: find a better way to update the file tree, something like alaways listen to GET_FILE_TREE_EVENT
+        //TODO: find a better way to update the file tree, something like always listen to GET_FILE_TREE_EVENT
         if (isAddingFileOrFolder.type === FileType.FILE) {
             io.emit('REQUEST_CREATE_FILE', { filePath: completePath, rootFolder: folderPath });
             io.on('RESULT_CREATE_FILE', (data: { isSuccess: boolean, msg: string, fileTree: Array<TreeRoot> }) => {
@@ -54,14 +55,25 @@ export default function InputBoxFileFolder({ currentPath }: props) {
         }
 
     };
+    const onKeyDown = (e:React.KeyboardEvent<HTMLInputElement>)=>{
+        if(e.key !== 'Enter') return;
+        onSave();
+    }
+    React.useEffect(()=>{
+        if(!isAddingFileOrFolder.isAdding || !inputRef.current) return;
+        inputRef.current.focus();
+
+    }, [isAddingFileOrFolder]);
     if (!isAddingFileOrFolder.isAdding || selectedPath !== currentPath) return null;
     return (
         <input
-            onBlur={onBlur}
+            onBlur={onSave}
             onChange={onChange}
-            className="ml-2 p-1 rounded-md focus:auto"
+            onKeyDown={onKeyDown}
+            className="p-1 rounded-md focus:auto"
             type="text"
             title="file-or-folder-name"
+            ref={inputRef}
         />
     );
 }

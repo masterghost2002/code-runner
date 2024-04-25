@@ -1,5 +1,6 @@
 import { IoClose } from "react-icons/io5";
 import useFileStore, {RecentFile} from "../../store/files/useFileStore";
+import getExtensionIcon from "../../utils/get-extension-icon";
 type FileToolTipType = {
     fileName:string;
     index:number;
@@ -8,12 +9,14 @@ type FileToolTipType = {
     onCancel:(e: React.MouseEvent<HTMLButtonElement>,index:number)=>void;
 }
 const FileToolTip  = ({fileName, onClick, onCancel, index, isSelected}:FileToolTipType)=>{
+    const Icon = getExtensionIcon(fileName);
     return (
         <div className={`flex h-full cursor-pointer gap-2 items-center p-2 border-r-2 border-[#191919] ${isSelected?"bg-[#1f1f1f]":"bg-[#292929]"}` } onClick={()=>onClick(index)}>
-            <div>
+            <div className="flex text-green-300 text-[12px] items-center gap-2">
+                <Icon size={14}/>
                 {fileName}
             </div>
-            <button className="hover:block" onClick={(e:React.MouseEvent<HTMLButtonElement>)=>onCancel(e,index)}>
+            <button className="hover:bg-[#191919] p-[2px] rounded-md" onClick={(e:React.MouseEvent<HTMLButtonElement>)=>onCancel(e,index)}>
                 <IoClose/>
             </button>
         </div>
@@ -31,7 +34,7 @@ export default function RecentFileHandler(){
         const file = recentFiles[index];
         removeFromRecents(file);
     }
-    return (<div className="h-[50px] bg-[#191919] flex overflow-x-auto">
+    return (<div className="h-[36px] bg-[#191919] flex overflow-x-auto">
         {
             recentFiles.map((file:RecentFile, index:number)=><FileToolTip 
                 key={file.name+index} index={index} 
