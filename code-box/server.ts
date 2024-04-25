@@ -49,7 +49,7 @@ io.on('connection', (socket: Socket) => {
   socket.on('REQUEST_CREATE_FILE', async ({filePath, rootFolder}:{filePath:string, rootFolder:string})=>{
     const result = await createFile(filePath);
     const new_file_tree = buildFileTree(rootFolder);
-    socket.emit('RESULT_CREATE_FILE', {...result, new_file_tree});
+    socket.emit('RESULT_CREATE_FILE', {...result, fileTree:new_file_tree});
   })
 });
 

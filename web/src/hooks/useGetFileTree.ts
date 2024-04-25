@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import useSocket from './useSocket';
 import useFileStore from '../store/files/useFileStore';
 import { TreeRoot, FileType } from '../../types';
-const folderPath = '/media/rakeshssd/codespace/code-runner/test-temp'
+const folderPath = '/media/rakeshssd/codespace/code-runner/test-temp';
 export default function useGetFileTree(){
     const setFileTree = useFileStore(state=>state.setFileTree);
     const io = useSocket({ url: 'http://localhost:5000' });
