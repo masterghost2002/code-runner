@@ -21,7 +21,7 @@ const FolderContainer = ({ folderName,path, children }: props) => {
         });
     }
     return (<div className="ml-[10px]">
-            <button className="flex gap-2 items-center" onClick={handleOnFolderSelect}>
+            <button className="flex gap-2 items-center hover:bg-[#202020] w-full p-1 rounded-md hover:cursor-pointer" onClick={handleOnFolderSelect}>
                 <span>
                     {isSelected ? <IoIosArrowDown/> : <IoIosArrowForward/>}
                 </span>

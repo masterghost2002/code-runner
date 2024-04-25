@@ -6,6 +6,7 @@ import buildFileTree from './src/utils/build-file-tree';
 import readContent from './src/utils/read-content';
 import editContent from './src/utils/edit-content';
 import createFile from './src/utils/create-file';
+import createDir from './src/utils/create-dir';
 import * as pty from 'node-pty';
 const app = express();
 const server = http.createServer(app);
@@ -50,7 +51,12 @@ io.on('connection', (socket: Socket) => {
     const result = await createFile(filePath);
     const new_file_tree = buildFileTree(rootFolder);
     socket.emit('RESULT_CREATE_FILE', {...result, fileTree:new_file_tree});
-  })
+  });
+  socket.on('REQUEST_CREATE_FOLDER', async ({folderPath, rootFolder}:{folderPath:string, rootFolder:string})=>{
+    const result = await createDir(folderPath);
+    const new_file_tree = buildFileTree(rootFolder);
+    socket.emit('RESULT_CREATE_FOLDER', {...result, fileTree:new_file_tree});
+  });
 });
 
 const PORT = process.env.PORT || 5000;
