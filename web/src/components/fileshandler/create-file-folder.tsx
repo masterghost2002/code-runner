@@ -8,14 +8,16 @@ export default function CreateFileFolder(){
     const handleCreateClick = (type:FileType)=>{
         setIsAddingFileOrFolder({isAdding:true, type});
     }
+    if(!selectedPath)
+        return <div className="min-h-8"/>
     return (
         <div className="flex gap-2   min-h-8 flex-grow-1 justify-end items-center mr-3">
-            {selectedPath && <button title="add-file" onClick={()=>handleCreateClick(FileType.FILE)}>
+            <button title="add-file" onClick={()=>handleCreateClick(FileType.FILE)}>
                 <AiFillFileAdd size={20}/>
-            </button>}
-            {selectedPath && <button title="add-folder" onClick={()=>handleCreateClick(FileType.DIR)}>
+            </button>
+            <button title="add-folder" onClick={()=>handleCreateClick(FileType.DIR)}>
                 <MdOutlineCreateNewFolder size={20}/>
-            </button>}
+            </button>
         </div>
     )
 }

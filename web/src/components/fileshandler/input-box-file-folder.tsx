@@ -1,4 +1,5 @@
 import React from "react";
+import { ChevronRight, Text } from 'lucide-react';
 import useFileStore from "../../store/files/useFileStore";
 import useSocket from "../../hooks/useSocket";
 import { FileType, TreeRoot } from "../../../types";
@@ -55,25 +56,39 @@ export default function InputBoxFileFolder({ currentPath }: props) {
         }
 
     };
-    const onKeyDown = (e:React.KeyboardEvent<HTMLInputElement>)=>{
-        if(e.key !== 'Enter') return;
+    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key !== 'Enter') return;
         onSave();
     }
-    React.useEffect(()=>{
-        if(!isAddingFileOrFolder.isAdding || !inputRef.current) return;
+    React.useEffect(() => {
+        if (!isAddingFileOrFolder.isAdding || !inputRef.current) return;
         inputRef.current.focus();
 
     }, [isAddingFileOrFolder]);
     if (!isAddingFileOrFolder.isAdding || selectedPath !== currentPath) return null;
     return (
-        <input
-            onBlur={onSave}
-            onChange={onChange}
-            onKeyDown={onKeyDown}
-            className="p-1 rounded-md focus:auto"
-            type="text"
-            title="file-or-folder-name"
-            ref={inputRef}
-        />
+        <div className="w-full mt-2 pl-2 flex gap-1 items-center">
+            {
+                isAddingFileOrFolder.type === FileType.DIR &&
+                <div className="flex-grow-1 flex-shrink-0">
+                    <ChevronRight size={14} />
+                </div>
+            }
+            {
+                isAddingFileOrFolder.type === FileType.FILE &&
+                <div className="flex-grow-1 flex-shrink-0">
+                    <Text size={14} />
+                </div>
+            }
+            <input
+                onBlur={onSave}
+                onChange={onChange}
+                onKeyDown={onKeyDown}
+                className="px-1 w-full rounded-sm focus:auto"
+                type="text"
+                title="file-or-folder-name"
+                ref={inputRef}
+            />
+        </div>
     );
 }

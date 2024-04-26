@@ -34,7 +34,7 @@ export default function RecentFileHandler(){
         const file = recentFiles[index];
         removeFromRecents(file);
     }
-    return (<div className="h-[36px] bg-[#191919] flex overflow-x-auto">
+    return (<div className="h-[36px] bg-[#191919] flex overflow-x-auto minimal-navbar">
         {
             recentFiles.map((file:RecentFile, index:number)=><FileToolTip 
                 key={file.name+index} index={index} 

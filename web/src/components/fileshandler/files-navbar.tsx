@@ -9,7 +9,7 @@ export default function FileNavBar() {
         <div className="flex bg-[#191919] flex-col h-full w-full p-2">
             <h1 className="text-xl font-bold text-green-400 p-2">Code Runner</h1>
             <CreateFileFolder/>
-            <div className='flex flex-col gap-2 overflow-y-auto overflow-x-auto'>
+            <div className='flex flex-col gap-2 overflow-y-auto overflow-x-auto minimal-navbar'>
                {fileTree.length >= 1 && <TreeViewer
                     tree={fileTree[0]}
                 />}

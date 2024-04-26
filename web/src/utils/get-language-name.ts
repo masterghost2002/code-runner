@@ -11,13 +11,17 @@ export default function getLanguageFromFilename(filename: string | undefined): s
     const languageMap: { [key: string]: string } = {
         'tsx':'typescript',
         'jsx':'javascript',
-        'ts': 'typeScript',
-        'js': 'javaScript',
+        'ts': 'typescript',
+        'js': 'javascript',
         'py': 'python',
         'css':'css',
         'html':'html',
         'json':'json',
-        'md':'markdown'
+        'md':'markdown',
+        'cpp':'cpp',
+        'c++':'cpp',
+        'c':'c',
+        'cjs':'javascript'
         // Add more extensions and corresponding language names as needed
     };
 

@@ -9,12 +9,8 @@ type props = {
 }
 const FolderContainer = ({ folderName,path, children }: props) => {
     const [isSelected, setIsSelected] = useState(false);
-    const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
     const setSelectedPath = useFileStore(state=>state.setSelectedPath);
     const selectedPath = useFileStore(state=>state.selectedPath);
-    const handleContextMenu = ()=>{
-        setIsContextMenuOpen(true);
-    }
     const handleOnFolderSelect = ()=>{
         setIsSelected(prev=>{
             if(prev === false){
@@ -25,13 +21,17 @@ const FolderContainer = ({ folderName,path, children }: props) => {
             return false;
         });
     }
-    return (<div className="ml-[10px]">
+    const handleContextMenuOpenChange = (isOpen:boolean)=>{
+        if(isOpen)
+            setSelectedPath(path);
+    }
+    return (<div className="w-full pl-2">
         <FolderContextMenu
-            setIsContextMenuOpen = {setIsContextMenuOpen}
-        >
+            handleContextMenuOpenChange = {handleContextMenuOpenChange}
+            setIsSelectedFolder={setIsSelected}
+        >   
             <button 
-                className={`flex gap-2 text-[16px] items-center hover:bg-[#202020] ${selectedPath === path && 'border-2 border-gray-400'} w-full p-1 rounded-md hover:cursor-pointer`}
-                onContextMenu={handleContextMenu} 
+                className={`flex gap-2 text-[16px] items-center hover:bg-[#202020] ${selectedPath === path && 'border-2 border-green-300'} w-full rounded-sm hover:cursor-pointer`}
                 onClick={handleOnFolderSelect}
             >
                 <span>
@@ -43,7 +43,7 @@ const FolderContainer = ({ folderName,path, children }: props) => {
             </button>
         </FolderContextMenu>
         {
-            isSelected && children
+            isSelected  && children
         }
     </div>)
 };
