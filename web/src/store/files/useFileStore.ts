@@ -10,17 +10,23 @@ type FileAdding = {
     isAdding:boolean;
     type:FileType | undefined
 }
+type FileRenaming = {
+    isRenaming:boolean;
+    type:FileType | undefined;
+}
 type FileStore = {
     fileTree:Array<TreeRoot>;
     recentFiles:Array<RecentFile>;
     currentOpenedFile:RecentFile | undefined;
     selectedPath:string | undefined;
     isAddingFileOrFolder:FileAdding;
+    isRenamingFileOrFolder:FileRenaming;
     setIsAddingFileOrFolder:(value:FileAdding)=>void;
     setFileTree:(fileTree:Array<TreeRoot>)=>void;
+    removeFromRecents:(file:RecentFile)=>void;
     setSelectedPath:(path:string | undefined)=>void;
     setCurrentOpenFile:(file:RecentFile | undefined)=>void;
-    removeFromRecents:(file:RecentFile)=>void;
+    setIsRenamingFileOrFolder:(value:FileRenaming)=>void;
 }
 
 const useFileStore = create<FileStore>()(persist((set, get) => ({
@@ -29,6 +35,7 @@ const useFileStore = create<FileStore>()(persist((set, get) => ({
     currentOpenedFile:undefined,
     selectedPath:undefined,
     isAddingFileOrFolder:{isAdding:false, type:undefined},
+    isRenamingFileOrFolder:{isAdding:false, type:undefined},
     removeFromRecents:(file:RecentFile)=>{
         const _recentFiles =[...get().recentFiles];
         const _new_recents = _recentFiles.filter((f:RecentFile)=>f.path !== file.path);
@@ -52,9 +59,11 @@ const useFileStore = create<FileStore>()(persist((set, get) => ({
     setSelectedPath:(path:string | undefined)=>{
         set({selectedPath:path});
     },
-    setIsAddingFileOrFolder:(value:FileAdding)=>set({isAddingFileOrFolder:value})
+    setIsAddingFileOrFolder:(value:FileAdding)=>set({isAddingFileOrFolder:value}),
+    setIsRenamingFileOrFolder:(value:FileRenaming)=>set({isRenamingFileOrFolder:value})
 }), {
-    name: 'code-runner-code-editor'
+    name: 'code-runner-code-editor',
+    partialize:(state)=>({recentFiles:state.recentFiles, currentOpenedFile:state.currentOpenedFile,fileTree:state.fileTree})
 }
 ));
 export default useFileStore;
