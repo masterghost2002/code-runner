@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ChevronDown, ChevronRight  } from 'lucide-react';
 import useFileStore from "../../store/files/useFileStore";
 import FolderContextMenu from "./folder-context-menu";
+import RenameFileFolderInput from "./rename-input-box";
 type props = {
     folderName: string;
     path:string;
@@ -11,6 +12,7 @@ const FolderContainer = ({ folderName,path, children }: props) => {
     const [isSelected, setIsSelected] = useState(false);
     const setSelectedPath = useFileStore(state=>state.setSelectedPath);
     const selectedPath = useFileStore(state=>state.selectedPath);
+    const isRenamingFileOrFolder = useFileStore(state=>state.isRenamingFileOrFolder);
     const handleOnFolderSelect = ()=>{
         setIsSelected(prev=>{
             if(prev === false){
@@ -30,7 +32,7 @@ const FolderContainer = ({ folderName,path, children }: props) => {
             handleContextMenuOpenChange = {handleContextMenuOpenChange}
             setIsSelectedFolder={setIsSelected}
         >   
-            <button 
+           {(!isRenamingFileOrFolder.isRenaming || path !== selectedPath) && <button 
                 className={`flex gap-2 text-[16px] items-center hover:bg-[#202020] ${selectedPath === path && 'border-2 border-green-300'} w-full rounded-sm hover:cursor-pointer`}
                 onClick={handleOnFolderSelect}
             >
@@ -40,7 +42,11 @@ const FolderContainer = ({ folderName,path, children }: props) => {
                 <span>
                     {folderName}
                 </span>
-            </button>
+            </button>}
+            <RenameFileFolderInput
+                currentPath={path}
+                currentName={folderName}
+            />
         </FolderContextMenu>
         {
             isSelected  && children
