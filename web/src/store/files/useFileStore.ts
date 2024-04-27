@@ -35,7 +35,7 @@ const useFileStore = create<FileStore>()(persist((set, get) => ({
     currentOpenedFile:undefined,
     selectedPath:undefined,
     isAddingFileOrFolder:{isAdding:false, type:undefined},
-    isRenamingFileOrFolder:{isAdding:false, type:undefined},
+    isRenamingFileOrFolder:{isRenaming:false, type:undefined},
     removeFromRecents:(file:RecentFile)=>{
         const _recentFiles =[...get().recentFiles];
         const _new_recents = _recentFiles.filter((f:RecentFile)=>f.path !== file.path);

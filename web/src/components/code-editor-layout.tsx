@@ -5,6 +5,7 @@ import {
     ResizablePanelGroup,
 } from "./ui/resizable";
 import RecentFileHandler from "./fileshandler/recent-file-handler";
+import FilePathBreadCrumb from "./fileshandler/filepath-breadcrumb";
 type props = {
     FileNavbar: React.ComponentType;
     Editor: React.ComponentType;
@@ -24,6 +25,7 @@ export default function CodeEditorLayout({ FileNavbar, Editor, Terminal }: props
                 <ResizablePanelGroup direction="vertical">
                     <ResizablePanel defaultSize={70}>
                             <RecentFileHandler/>
+                            <FilePathBreadCrumb/>
                             <Editor />
                     </ResizablePanel>
                     <ResizableHandle />
