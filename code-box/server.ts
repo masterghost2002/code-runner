@@ -8,6 +8,7 @@ import editContent from './src/utils/edit-content';
 import createFile from './src/utils/create-file';
 import createDir from './src/utils/create-dir';
 import * as pty from 'node-pty';
+import renameDir from './src/utils/rename-folder';
 const app = express();
 const server = http.createServer(app);
 let term = pty.spawn('bash', [], {
@@ -57,6 +58,12 @@ io.on('connection', (socket: Socket) => {
     const new_file_tree = buildFileTree(rootFolder);
     socket.emit('RESULT_CREATE_FOLDER', {...result, fileTree:new_file_tree});
   });
+  socket.on('REQUEST_RENAME_FOLDER', async (data:{folderPath:string, newName:string, rootFolder:string})=>{
+    const result = await renameDir(data.folderPath, data.newName);
+    const new_file_tree = buildFileTree(data.rootFolder);
+    socket.emit('RESULT_RENAME_FOLDER', {...result, fileTree:new_file_tree});
+
+  })
 });
 
 const PORT = process.env.PORT || 5000;
